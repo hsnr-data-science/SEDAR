@@ -1,0 +1,37 @@
+[
+    {
+        "displayname": "KMeans",
+        "class": "sklearn.cluster.KMeans",
+        "parameters": {"n_clusters":"number:int", "n_init":"number:int","max_iter":"number:int", "algorithm": "algorithm:str"}
+    }, 
+    {
+        "displayname":"Affinity Propagation",
+        "class": "sklearn.cluster.AffinityPropagation",
+        "parameters":{"damping": "damping:float", "max_iter":"number:int", "convergence_iter":"number:int", "affinity": "affinity:str"}
+    },
+    {
+        "displayname":"Mean Shift",
+        "class": "sklearn.cluster.MeanShift",
+        "parameters":{"bandwidth":"number:float","max_iter":"number:int"}
+    },
+    {
+        "displayname":"Spectral clustering",
+        "class": "sklearn.cluster.SpectralClustering",
+        "parameters":{"n_clusters":"number:int", "eigen_solver":"eigen_solver:str", "n_components": "number:int", "n_init": "number:int"}
+    },
+    {
+        "displayname":"DBSCAN",
+        "class": "sklearn.cluster.DBSCAN",
+        "parameters":{"eps":"number:float","min_samples":"number:int"}
+    },
+    {
+        "displayname":"OPTICS",
+        "class": "sklearn.cluster.OPTICS",
+        "parameters":{"eps":"number:float"}
+    },
+    {
+        "displayname":"BIRCH",
+        "class": "sklearn.linear_model.LassoLars",
+        "parameters":{"threshold":"number:float", "n_clusters":"number:int"}
+    }
+]

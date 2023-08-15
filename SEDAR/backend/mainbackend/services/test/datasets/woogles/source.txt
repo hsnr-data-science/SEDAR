@@ -1,0 +1,3 @@
+https://www.kaggle.com/datasets/mrisdal/raw-wooglesio-games?select=woogles.json
+Author: Meg Risdal
+License: https://creativecommons.org/licenses/by-sa/4.0/

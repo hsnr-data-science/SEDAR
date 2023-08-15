@@ -1,0 +1,9 @@
+{
+    "name": "[TEST] json2default_updated",
+    "spark_packages": ["org.mongodb.spark:mongo-spark-connector_2.12:3.0.0"],
+    "read_type": "SOURCE_FILE",
+    "read_format": "json",
+    "read_options": {"multiLine": "true"},
+    "source_files": ["initial"],
+    "write_type": "DEFAULT"
+}

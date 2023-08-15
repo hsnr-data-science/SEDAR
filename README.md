@@ -40,7 +40,7 @@ This work has been sponsored by the German Federal Ministry of Education and Res
 
 This is a figure that represents the architecture of the system. All individual elements are shipped in Docker containers.
 
-![](documents/sedar-architektur.jpg)
+![](documents/SEDAR-Overview.jpg)
 
 # Installation
 The following installation instruction have been tested on a Debian GNU/Linux 11 (bullseye) virtual machine with 32GB RAM and 8 CPUs, Architecture x86_64. 

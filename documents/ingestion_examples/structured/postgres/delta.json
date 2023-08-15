@@ -1,0 +1,15 @@
+{
+    "name": "[TEST] pg2default_cdc",
+    "id_column": "num1",
+    "spark_packages": ["org.postgresql:postgresql:42.2.18"],
+    "read_type": "PULL",
+    "read_format": "jdbc",
+    "read_options": {
+        "url": "jdbc:postgresql://192.168.178.69:5432/test",
+        "dbtable": "test",
+        "user": "admin",
+        "password": "admin",
+        "driver": "org.postgresql.Driver"
+    },
+    "write_type": "DELTA"
+}

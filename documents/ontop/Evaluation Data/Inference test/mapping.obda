@@ -1,0 +1,16 @@
+[PrefixDeclaration]
+ex: 	http://example.org/
+expo:		http://www.hozo.jp/owl/EXPOApr19.xml/
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+
+[MappingDeclaration] @collection [[
+[sourcePoint=high_throughput]
+mappingId	high_throughput
+target		expo:experiments/{result.experiments.id} a expo:PhysicalExperiment ; rdfs:label {result.experiments.label} ; ex:createdProducts expo:{result.experiments.trials.createdProducts.id}.
+source		SELECT * FROM high_throughput
+
+[sourcePoint=high_throughput]
+mappingId	high_throughput2
+target		expo:{result.experiments.trials.createdProducts.id} a expo:ExperimentalResults; rdfs:label {result.experiments.trials.createdProducts.label}.
+source		SELECT * FROM high_throughput
+]]

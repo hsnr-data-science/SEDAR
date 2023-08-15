@@ -1,0 +1,11 @@
+{
+    "name": "[TEST] json2delta_cdc",
+    "id_column": "Username",
+    "spark_packages": ["org.mongodb.spark:mongo-spark-connector_2.12:3.0.0"],
+    "read_type": "SOURCE_FILE",
+    "read_format": "csv",
+    "read_options": {"delimiter": ";", "header": "true"},
+    "source_files": ["username"],
+    "plugin_files": ["plugin"],
+    "write_type": "DELTA"
+}

@@ -1,0 +1,56 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Mainbackend",
+        "python":"/home/datalake/flask/bin/python3",
+        "type": "python",
+        "request": "launch",
+        "cwd": "/home/datalake/haronshaker-masterarbeit/application/backend/mainbackend",
+        "program": "server.py",
+        "console": "integratedTerminal",
+        "envFile": "/home/datalake/haronshaker-masterarbeit/application/.env",
+      },
+      {
+        "name": "Ingestion Service",
+        "python":"/home/datalake/flask/bin/python3",
+        "type": "python",
+        "request": "launch",
+        "cwd": "/home/datalake/haronshaker-masterarbeit/application/backend/services/ingestion",
+        "program": "server.py",
+        "console": "integratedTerminal",
+        "envFile": "/home/datalake/haronshaker-masterarbeit/application/.env",
+      },
+      {
+        "name": "Continuation Service",
+        "python":"/home/datalake/flask/bin/python3",
+        "type": "python",
+        "request": "launch",
+        "cwd": "/home/datalake/haronshaker-masterarbeit/application/backend/services/continuation",
+        "program": "server.py",
+        "console": "integratedTerminal",
+        "envFile": "/home/datalake/haronshaker-masterarbeit/application/.env",
+      },
+      {
+        "name": "Schema Service",
+        "python":"/home/datalake/flask/bin/python3",
+        "type": "python",
+        "request": "launch",
+        "cwd": "/home/datalake/haronshaker-masterarbeit/application/backend/services/schema",
+        "program": "server.py",
+        "console": "integratedTerminal",
+        "envFile": "/home/datalake/haronshaker-masterarbeit/application/.env",
+      },
+      {
+        "name": "Profiling Service",
+        "python":"/home/datalake/flask/bin/python3",
+        "type": "python",
+        "request": "launch",
+        "cwd": "/home/datalake/haronshaker-masterarbeit/application/backend/services/profiling",
+        "program": "server.py",
+        "console": "integratedTerminal",
+        "envFile": "/home/datalake/haronshaker-masterarbeit/application/.env",
+      }
+    ]
+}
+  

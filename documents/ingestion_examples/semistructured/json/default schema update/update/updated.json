@@ -1,0 +1,88 @@
+{
+  "colors": [
+    {
+      "description": {
+        "id": 0,
+        "name": "red"
+      },
+      "lol": "2",
+      "yxc": {
+        "yxc": {
+          "yxc": "255",
+          "xc": "26",
+          "cx": "26"
+        }
+      },
+      "hex": "#ff1a1a",
+      "alternatives": {
+        "rgb": {
+          "red": "255",
+          "green": "26",
+          "blue": "26"
+        },
+        "hsl": {
+          "hue": "0",
+          "saturation": "100",
+          "lightnes": "55"
+        }
+      }
+    },
+    {
+      "description": {
+        "id": 2,
+        "name": "purple"
+      },
+      "hex": "#ff4dff",
+      "alternatives": {
+        "rgb": {
+          "red": "255",
+          "green": "77",
+          "blue": "255"
+        },
+        "hsl": {
+          "hue": "300",
+          "saturation": "100",
+          "lightnes": "65"
+        }
+      }
+    },
+    {
+      "description": {
+        "id": 3,
+        "name": "blue"
+      },
+      "hex": "#3399ff",
+      "alternatives": {
+        "rgb": {
+          "red": "51",
+          "green": "135",
+          "blue": "255"
+        },
+        "hsl": {
+          "hue": "210",
+          "saturation": "100",
+          "lightnes": "60"
+        }
+      }
+    },
+    {
+      "description": {
+        "id": 4,
+        "name": "yellow"
+      },
+      "hex": "#ffff66",
+      "alternatives": {
+        "rgb": {
+          "red": "255",
+          "green": "255",
+          "blue": "102"
+        },
+        "hsl": {
+          "hue": "60",
+          "saturation": "100",
+          "lightnes": "70"
+        }
+      }
+    }
+  ]
+}

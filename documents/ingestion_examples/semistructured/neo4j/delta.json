@@ -1,0 +1,12 @@
+{
+    "name": "neo4j",
+    "id_column": "email",
+    "spark_packages": ["neo4j-contrib:neo4j-connector-apache-spark_2.12:4.0.1_for_spark_3"],
+    "read_type": "PULL",
+    "read_format": "org.neo4j.spark.DataSource",
+    "read_options": {
+        "url": "bolt://192.168.178.69:7687",
+        "labels": ":User"
+    },
+    "write_type": "DELTA"
+}

@@ -1,0 +1,69 @@
+version: "3.8"
+networks:
+  datalake:
+services:
+
+  #------------------------------------------------------------------------------------------------
+  # Apache Hive
+  #------------------------------------------------------------------------------------------------
+  hive-server:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-server
+    hostname: hive-server
+    networks:
+      - datalake
+    env_file:
+      - ./hadoop.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"
+      - "10002:10002"
+
+  hive-metastore:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-metastore
+    hostname: hive-metastore
+    networks:
+      - datalake
+    env_file:
+      - ./hadoop.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 datanode1:9866 "
+
+    ports:
+      - "9083:9083"
+
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    container_name: hive-metastore-postgresql
+    hostname: hive-metastore-postgresql
+    networks:
+      - datalake
+    ports:
+      - "10003:8080"
+
+
+  #------------------------------------------------------------------------------------------------
+  # Thrift Server
+  #------------------------------------------------------------------------------------------------
+  thriftserver:
+    image: chimerasuite/thriftserver:3.1.1-hadoop3.2
+    container_name: thriftserver
+    hostname: thriftserver
+    networks:
+      - datalake
+    ports:
+      - "10001:10000"
+      - "4041:4040"
+    environment:
+      - "SPARK_MASTER=spark-master:7077"
+      - "TOTAL_EXECUTOR_CORES=8"
+      - "EXECUTOR_MEMORY=8G"
+      - "DRIVER_MAX_RESULT_SIZE=8G"
+      - "HADOOP_CONF_DIR=/spark/conf/hive-site.xml"
+    volumes:
+      - "../../dockerfiles/spark/conf/hive-site.xml:/spark/conf/hive-site.xml"
+      - "./spark/init:/init"

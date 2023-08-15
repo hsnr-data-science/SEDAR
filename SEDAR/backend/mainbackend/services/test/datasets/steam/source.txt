@@ -1,0 +1,3 @@
+https://www.kaggle.com/datasets/nikdavis/steam-store-games
+Author: Nik Davis
+License: https://creativecommons.org/licenses/by/4.0/

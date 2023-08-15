@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+    
+    server:
+        build: .
+        command: catalina.sh run
+        ports:
+            - 8088:8080

@@ -1,0 +1,22 @@
+.MuiAutocomplete-popper{
+    z-index: 200000!important;
+}
+
+.MuiPopover-root{
+    z-index: 200000!important;
+}
+
+.filterDialog{
+    z-index: 20000!important;
+}
+
+#searchbarBox{
+    background: rgba(0, 0, 0, 0.7)!important;
+    border: 1px solid black;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.css-1ozefeb{
+    z-index: 20001!important;
+}

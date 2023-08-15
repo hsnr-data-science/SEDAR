@@ -1,0 +1,215 @@
+[
+    {
+        "displayname": "Ridge regression and classification",
+        "class": "sklearn.linear_model.Ridge",
+        "parameters": {
+            "alpha": "number:float"
+        }
+    },
+    {
+        "displayname": "Ordinary Least Squares",
+        "class": "sklearn.linear_model.LinearRegression",
+        "parameters": {}
+    },
+    {
+        "displayname": "Lasso",
+        "class": "sklearn.linear_model.Lasso",
+        "parameters": {
+            "alpha": "number:float"
+        }
+    },
+    {
+        "displayname": "Multi-task Lasso",
+        "class": "sklearn.linear_model.MultiTaskLasso",
+        "parameters": {
+            "alpha": "number:float"
+        }
+    },
+    {
+        "displayname": "Elastic-Net",
+        "class": "sklearn.linear_model.ElasticNet",
+        "parameters": {
+            "alpha": "number:float",
+            "l1_ratio": "number:float"
+        }
+    },
+    {
+        "displayname": "Multi-task Elastic-Net",
+        "class": "sklearn.linear_model.MultiTaskElasticNet",
+        "parameters": {
+            "alpha": "number:float",
+            "l1_ratio": "number:float"
+        }
+    },
+    {
+        "displayname": "Least Angle Regression",
+        "class": "sklearn.linear_model.Lars",
+        "parameters": {
+            "fit_intercept": "bool:bool",
+            "normalize": "bool:bool",
+            "precompute": "bool:bool",
+            "n_nonzero_coefs": "number:float",
+            "eps": "number:float",
+            "jitter": "number:float"
+        }
+    },
+    {
+        "displayname": "LARS Lasso",
+        "class": "sklearn.linear_model.LassoLars",
+        "parameters": {
+            "alpha": "bool:bool",
+            "normalize": "bool:bool"
+        }
+    },
+    {
+        "displayname": "Orthogonal Matching Pursuit (OMP)",
+        "class": "sklearn.linear_model.OrthogonalMatchingPursuit",
+        "parameters": {
+            "n_nonzero_coefs": "number:float",
+            "normalize": "bool:bool"
+        }
+    },
+    {
+        "displayname": "Bayesian Regression",
+        "class": "sklearn.linear_model.BayesianRidge",
+        "parameters": {
+            "alpha_1": "number:float",
+            "alpha_2": "number:float",
+            "lambda_1": "number:float",
+            "lambda_2": "number:float",
+            "alpha_init": "number:float",
+            "lambda_init": "number:float",
+            "normalize": "bool:bool"
+        }
+    },
+    {
+        "displayname": "Logistic regression",
+        "class": "sklearn.linear_model.LogisticRegression",
+        "parameters": {
+            "penalty": "penalty:str",
+            "dual": "bool:bool",
+            "C": "number:float",
+            "fit_intercept": "bool:bool",
+            "intercept_scaling": "bool:bool",
+            "solver": "solver:str",
+            "l1_ratio": "number:float"
+        }
+    },
+    {
+        "displayname": "Generalized Linear Regression",
+        "class": "sklearn.linear_model.TweedieRegressor",
+        "parameters": {
+            "power": "number:float",
+            "alpha": "number:float"
+        }
+    },
+    {
+        "displayname": "Stochastic Gradient Descent - SGD",
+        "class": "sklearn.linear_model.SGDRegressor",
+        "parameters": {
+            "loss": "text:str",
+            "penalty": "penalty:str",
+            "alpha": "number:float",
+            "l1_ratio": "number:float",
+            "epsilon": "number:float"
+        }
+    },
+    {
+        "displayname": "Perceptron",
+        "class": "sklearn.linear_model.Perceptron",
+        "parameters": {
+            "alpha": "number:float",
+            "l1_ratio": "number:float"
+        }
+    },
+    {
+        "displayname": "Passive Aggressive Algorithms",
+        "class": "sklearn.linear_model.PassiveAggressiveClassifier",
+        "parameters": {
+            "C": "number:float"
+        }
+    },
+    {
+        "displayname": "Robustness regression",
+        "class": "sklearn.linear_model.HuberRegressor",
+        "parameters": {
+            "epsilon": "number:float",
+            "alpha": "number:float"
+        }
+    },
+    {
+        "displayname": "Quantile Regression",
+        "class": "sklearn.linear_model.QuantileRegressor",
+        "parameters": {
+            "quantile": "number:float",
+            "alpha": "number:float"
+        }
+    },
+    {
+        "displayname": "Polynomial regression",
+        "class": "sklearn.linear_model.LinearRegression",
+        "parameters": {}
+    },
+    {
+        "displayname": "Nearest Neighbors",
+        "class": "sklearn.neighbors.KNeighborsClassifier",
+        "parameters": {
+            "n_neighbors": "number:int"
+        }
+    },
+    {
+        "displayname": "SVM",
+        "class": "sklearn.svm.SVC",
+        "parameters": {
+            "C": "number:float",
+            "kernel": "kernel:str",
+            "degree": "number:int",
+            "gamma": "gamma:str"
+        }
+    },
+    {
+        "displayname": "Gaussian Process",
+        "class": "sklearn.gaussian_process.GaussianProcessClassifier",
+        "parameters": {}
+    },
+    {
+        "displayname": "Decision Tree",
+        "class": "sklearn.tree.DecisionTreeClassifier",
+        "parameters": {
+            "max_depth": "number:int"
+        }
+    },
+    {
+        "displayname": "Random Forest",
+        "class": "sklearn.ensemble.RandomForestClassifier",
+        "parameters": {
+            "max_depth": "number:int",
+            "n_estimators": "number:int",
+            "max_features": "number:int"
+        }
+    },
+    {
+        "displayname": "Neural Net (MLP)",
+        "class": "sklearn.neural_network.MLPClassifier",
+        "parameters": {
+            "solver": "solver:str",
+            "alpha": "number:float",
+            "max_iter": "number:int"
+        }
+    },
+    {
+        "displayname": "AdaBoost",
+        "class": "sklearn.ensemble.AdaBoostClassifier",
+        "parameters": {}
+    },
+    {
+        "displayname": "Naive Bayes",
+        "class": "sklearn.naive_bayes.GaussianNB",
+        "parameters": {}
+    },
+    {
+        "displayname": "QDA",
+        "class": "sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis",
+        "parameters": {}
+    }
+]

@@ -1,0 +1,271 @@
+version: "3.3"
+networks:
+  datalake:
+services:
+
+  #------------------------------------------------------------------------------------------------
+  # kafka cluster
+  #------------------------------------------------------------------------------------------------
+  
+  zookeeper:
+    image: bitnami/zookeeper:3.5.10
+    container_name: zookeeper
+    restart: always
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    env_file:
+      - .env
+    networks:
+      - datalake
+
+  kafka:
+    image: bitnami/kafka:3.1.2
+    container_name: kafka
+    restart: always
+    ports:
+      - 9092:9092
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR=1
+      - CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR=1
+      - CONNECT_STATUS_STORAGE_REPLICATION_FACTOR=1
+      - CONNECT_CONFLUENT_TOPIC_REPLICATION_FACTOR= 1
+    depends_on:
+      - zookeeper
+    networks:
+      - datalake
+
+
+  #------------------------------------------------------------------------------------------------
+  # hadoop cluster
+  #------------------------------------------------------------------------------------------------
+
+  namenode:
+    image: gradiant/hdfs:3.2.2
+    container_name: namenode
+    restart: always
+    ports:
+      - 9870:9870
+      - 9000:9000
+    environment:
+      - CLUSTER_NAME=development
+    env_file:
+      - ./hadoop.env
+    command:
+      - namenode
+    networks:
+      - datalake
+
+  datanode1:
+    image: gradiant/hdfs:3.2.2
+    container_name: datanode1
+    hostname: datanode1
+    restart: always
+    ports:
+      - 9866:9866
+      - 9864:9864
+    depends_on:
+      - namenode
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+    command:
+      - datanode
+    networks:
+      - datalake
+
+  #------------------------------------------------------------------------------------------------
+  # spark cluster
+  #------------------------------------------------------------------------------------------------
+
+  spark:
+    container_name: spark
+    restart: always
+    hostname: spark
+    build: 
+      context: ./
+      dockerfile: ./dockerfiles/spark.Dockerfile
+    environment:
+      SPARK_MODE: "master"
+      SPARK_RPC_AUTHENTICATION_ENABLED: "no"
+      SPARK_RPC_ENCRYPTION_ENABLED: "no"
+      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: "no"
+      SPARK_WORKER_PORT: "8081"
+      SPARK_SSL_ENABLED: "no"
+      PYSPARK_PYTHON: "/usr/local/bin/python3.9"
+      PYSPARK_DRIVER_PYTHON: "/usr/local/bin/python3.9"
+    ports:
+      - 8080:8080
+      - 7077:7077
+    networks:
+      - datalake
+
+  spark-worker:
+    image: sedar-spark-master
+    container_name: spark-worker
+    hostname: spark-worker
+    restart: always
+    environment:
+      SPARK_MODE: worker
+      SPARK_MASTER_URL: "spark://spark:7077"
+      SPARK_WORKER_MEMORY: ${SPARK_WORKER_MEMORY}
+      SPARK_WORKER_CORES: ${SPARK_WORKER_CORES}
+      SPARK_WORKER_PORT: "8081"
+      SPARK_RPC_AUTHENTICATION_ENABLED: "no"
+      SPARK_RPC_ENCRYPTION_ENABLED: "no"
+      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: "no"
+      SPARK_SSL_ENABLED: "no"
+      SPARK_LOCAL_IP: spark-worker
+      # SPARK_LOCAL_HOSTNAME: "spark-worker"
+      PYSPARK_PYTHON: "/usr/local/bin/python3.9"
+      PYSPARK_DRIVER_PYTHON: "/usr/local/bin/python3.9"
+    ports:
+      - 8081:8081
+    networks:
+      - datalake
+    depends_on:
+      - spark
+
+  #------------------------------------------------------------------------------------------------
+  # databases
+  #------------------------------------------------------------------------------------------------
+
+  neo4j:
+    image: neo4j:4.4.14
+    container_name: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=none
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*,n10s.*
+      - NEO4J_dbms_security_procedures_whitelist=apoc.*,n10s.*
+      - NEO4J_dbms_unmanaged__extension__classes=n10s.endpoint=/rdf
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_dbms_shell_enabled=true
+      - NEO4JLABS_PLUGINS=["apoc", "n10s"]
+    networks:
+      - datalake
+      
+  elasticsearch:
+    image: elasticsearch:7.16.3
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms2G -Xmx2G"
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - datalake
+
+  mongodb:
+    image: mongo:4.2-bionic
+    container_name: mongodb
+    command: mongod
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - datalake
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 5432:5432
+    env_file: .env
+    networks:
+      - datalake
+
+  fuseki:
+    image: stain/jena-fuseki
+    container_name: fuseki
+    ports:
+      - 3030:3030
+    environment: 
+      - ADMIN_PASSWORD=${FUSEKI_PASSWORD}
+    volumes:
+      - ./dockerfiles/fuseki/config.ttl:/fuseki/config.ttl
+    networks:
+      - datalake
+
+  tika:
+    container_name: tika
+    image: apache/tika:latest
+    restart: always
+    ports:
+      - 9998:9998
+    networks:
+      - datalake
+
+
+  
+  #------------------------------------------------------------------------------------------------
+  # webservices
+  #------------------------------------------------------------------------------------------------
+
+  mlflow:
+    build: ./dockerfiles/mlflow
+    container_name: mlflow
+    ports:
+      - "6798:6798"
+    stdin_open: true
+    env_file: .env
+    depends_on:
+      - postgres
+    networks:
+      - datalake
+    restart: always
+    command: mlflow server --backend-store-uri postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} --default-artifact-root ${MLFLOW_HDFS_ENDPOINT_URL} --host 0.0.0.0 --port 6798
+
+  jupyterhub:
+    build: 
+      context: dockerfiles/jupyterhub/docker/.
+      dockerfile: Dockerfile
+    container_name: jupyterhub
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - datalake
+    depends_on:
+      - spawncontainer
+
+  spawncontainer:
+    build: 
+      context: dockerfiles/jupyterhub/spawnContainer/.
+      dockerfile: Dockerfile
+    container_name: spawncontainer
+    networks:
+      - datalake
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  webvowl:
+    build: 
+      context: ./dockerfiles/webvowl
+      dockerfile: ./Dockerfile
+    ports:
+      - 8088:8080
+    container_name: webvowl
+    command: catalina.sh run    
+    networks:
+      - datalake

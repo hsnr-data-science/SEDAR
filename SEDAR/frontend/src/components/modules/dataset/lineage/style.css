@@ -1,0 +1,11 @@
+.rd3t-label__attributes{
+    display: none;
+}
+
+.rd3t-label__title{
+    fill:black;
+}
+
+.root-node{
+    fill: green!important;
+}

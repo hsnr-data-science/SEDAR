@@ -1,0 +1,3 @@
+https://www.kaggle.com/datasets/bricevergnou/spotify-recommendation
+Author: Brice Vergnou
+License: https://creativecommons.org/publicdomain/zero/1.0/

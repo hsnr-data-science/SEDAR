@@ -1,0 +1,76 @@
+version: "3.3"
+networks:
+  datalake:
+services:
+
+  ingestion:
+    container_name: ingestion
+    restart: always
+    build: 
+      context: ./
+      dockerfile: ./dockerfiles/ingestion.Dockerfile
+    ports:
+      - "${INGESTION_SERVICE_PORT}:${INGESTION_SERVICE_PORT}"
+    extra_hosts:
+      - "namenode:${HDFS_IP}" 
+      - "datanode1:${HDFS_IP}"
+      - "datanode2:${HDFS_IP}"
+    volumes:
+      - .env:/application/backend/.env
+    networks:
+      - datalake
+    entrypoint: [ "bash", "-c", "python3.9 server.py"]      
+  
+  continuation:
+    container_name: continuation
+    restart: always
+    build: 
+      context: ./
+      dockerfile: ./dockerfiles/continuation.Dockerfile
+    ports:
+      - "${CONTINUATION_SERVICE_PORT}:${CONTINUATION_SERVICE_PORT}"
+    extra_hosts:
+      - "namenode:${HDFS_IP}" 
+      - "datanode1:${HDFS_IP}"
+      - "datanode2:${HDFS_IP}"
+    volumes:
+      - .env:/application/backend/.env
+    networks:
+      - datalake
+    entrypoint: [ "bash", "-c", "python3.9 server.py"]   
+  
+  profiling:
+    container_name: profiling
+    restart: always
+    build: 
+      context: ./
+      dockerfile: ./dockerfiles/profiling.Dockerfile
+    ports:
+      - "${PROFILING_SERVICE_PORT}:${PROFILING_SERVICE_PORT}"
+    extra_hosts:
+      - "namenode:${HDFS_IP}" 
+      - "datanode1:${HDFS_IP}"
+      - "datanode2:${HDFS_IP}"
+    volumes:
+      - .env:/application/backend/.env
+    networks:
+      - datalake
+    entrypoint: [ "bash", "-c", "python3.9 server.py"]   
+  
+  schema:
+    container_name: schema
+    restart: always
+    build: 
+      context: ./
+      dockerfile: ./dockerfiles/schema.Dockerfile
+    ports:
+      - "${SCHEMA_SERVICE_PORT}:${SCHEMA_SERVICE_PORT}"
+    extra_hosts:
+      - "namenode:${HDFS_IP}" 
+      - "datanode1:${HDFS_IP}"
+      - "datanode2:${HDFS_IP}"
+    volumes:
+      - .env:/application/backend/.env
+    networks:
+      - datalake
+    entrypoint: [ "bash", "-c", "python3.9 server.py"]   

@@ -1,0 +1,6 @@
+{ 
+    "name": "Files", 
+    "read_type": "DATA_FILE", 
+    "source_files": [ "avatar", "avatar2" ], 
+    "write_type": "DEFAULT"
+}

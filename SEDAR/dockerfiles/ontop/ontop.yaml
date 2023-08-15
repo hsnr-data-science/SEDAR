@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  ontop:
+    hostname: ontop
+    container_name: ontop
+    networks:
+      - datalake
+    image: chimerasuite/ontop:1cbcf170c6
+    environment: 
+      - "ONTOP_ONTOLOGY_FILE=/opt/ontop/input/${OBDA_ONTOLOGY_FILENAME}"
+      - "ONTOP_MAPPING_FILE=/opt/ontop/input/mapping.obda"
+      - "ONTOP_PROPERTIES_FILE=/opt/ontop/input/prop.properties"
+      #- "ONTOP_DEBUG=True"
+
+    ports:
+      - "8091:8080"
+    volumes:
+      - "./jdbc:/opt/ontop/jdbc"
+      - "./input:/opt/ontop/input"
+
+networks:
+  datalake:
+

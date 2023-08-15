@@ -1,0 +1,11 @@
+{
+    "name": "[TEST] json2delta_updated",
+    "id_column": "items.test.test.test.pageInfo.test.pageInfo.resultsPerPage",
+    "spark_packages": ["org.mongodb.spark:mongo-spark-connector_2.12:3.0.0"],
+    "read_type": "SOURCE_FILE",
+    "read_format": "json",
+    "read_options": {"multiLine": "true"},
+    "source_files": ["test"],
+    "plugin_files": ["plugin"],
+    "write_type": "DELTA"
+}

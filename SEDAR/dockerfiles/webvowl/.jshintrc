@@ -1,0 +1,20 @@
+{
+	"globals": {
+		"d3": false,
+		"webvowl": false,
+		"module": false,
+		"require": false
+	},
+
+	"bitwise"       : true,
+	"eqeqeq"        : true,
+	"forin"         : true,
+	"latedef"       : "nofunc",
+	"noarg"         : true,
+	"nonew"         : true,
+	"undef"         : true,
+
+	"browser"       : true,
+	"jasmine"       : true,
+	"devel"         : true
+}

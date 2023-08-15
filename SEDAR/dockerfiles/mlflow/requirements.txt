@@ -1,0 +1,8 @@
+cryptography==36.0.2
+boto3==1.21.46
+mlflow
+protobuf==3.20.*
+pyarrow
+pywebhdfs
+#hdfs3==0.3.1
+scikit-learn

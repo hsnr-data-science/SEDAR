@@ -1,0 +1,265 @@
+{
+    "plugin": {
+        "name": "",
+        "example": "```py\n#example plugin file\nfrom pyspark.sql import SparkSession, DataFrame\nimport requests\nimport json\n\ndef load(spark: SparkSession) -> DataFrame:\n\tresp = requests.get('<your_url>')\n\tdf = spark.sparkContext.parallelize(json.loads(resp.text))\n\tdf = spark.read.json(df, multiLine=True)\n\treturn df\n```",
+        "read_type": "PULL",
+        "plugin_files": [
+            "<upload_plugin_see_above>"
+        ],
+        "write_type": "DEFAULT"
+    },
+    "files": {
+        "name": "",
+        "read_type": "DATA_FILE",
+        "source_files": [
+            "<upload_file's>"
+        ]
+    },
+    "csv_delta": {
+        "name": "",
+        "id_column": "<id>",
+        "read_type": "SOURCE_FILE",
+        "read_format": "csv",
+        "read_options": {
+            "delimiter": "<delimiter>",
+            "header": "<header(true, false)>",
+            "inferSchema": "<inferSchema(true, false)>"
+        },
+        "source_files": [
+            "<upload_csv>"
+        ],
+        "write_type": "DELTA"
+    },
+    "csv_default": {
+        "name": "",
+        "id_column": "<id>",
+        "read_type": "SOURCE_FILE",
+        "read_format": "csv",
+        "read_options": {
+            "delimiter": "<delimiter>",
+            "header": "<header(true, false)>",
+            "inferSchema": "<inferSchema(true, false)>"
+        },
+        "source_files": [
+            "<upload_csv>"
+        ],
+        "write_type": "DEFAULT"
+    },
+    "json_delta": {
+        "name": "",
+        "id_column": "<id>",
+        "read_type": "SOURCE_FILE",
+        "read_format": "json",
+        "read_options": {
+            "multiLine": "<multiLine(true, false)>"
+        },
+        "source_files": [
+            "<upload_json>"
+        ],
+        "write_type": "DELTA"
+    },
+    "json_default": {
+        "name": "",
+        "id_column": "<id>",
+        "read_type": "SOURCE_FILE",
+        "read_format": "json",
+        "read_options": {
+            "multiLine": "<multiLine(true, false)>"
+        },
+        "source_files": [
+            "<upload_json>"
+        ],
+        "write_type": "DEFAULT"
+    },
+    "postgres_delta": {
+        "name": "",
+        "id_column": "<id>",
+        "spark_packages": [
+            "org.postgresql:postgresql:42.2.18"
+        ],
+        "read_type": "PULL",
+        "read_format": "jdbc",
+        "read_options": {
+            "url": "jdbc:postgresql://<ip>:5432/<db>",
+            "dbtable": "<name_of_table>",
+            "user": "<name_of_user>",
+            "password": "<password_of_user>",
+            "driver": "org.postgresql.Driver"
+        },
+        "write_type": "DELTA"
+    },
+    "postgres_default": {
+        "name": "",
+        "id_column": "<id>",
+        "spark_packages": [
+            "org.postgresql:postgresql:42.2.18"
+        ],
+        "read_type": "PULL",
+        "read_format": "jdbc",
+        "read_options": {
+            "url": "jdbc:postgresql://<ip>:5432/<db>",
+            "dbtable": "<name_of_table>",
+            "user": "<name_of_user>",
+            "password": "<password_of_user>",
+            "driver": "org.postgresql.Driver"
+        },
+        "write_type": "DEFAULT"
+    },
+    "postgres_custom": {
+        "name": "",
+        "id_column": "<id>",
+        "spark_packages": [
+            "org.postgresql:postgresql:42.2.18"
+        ],
+        "read_type": "PULL",
+        "read_format": "jdbc",
+        "read_options": {
+            "url": "jdbc:postgresql://<ip>:5432/<db>",
+            "dbtable": "<name_of_table>",
+            "user": "<name_of_user>",
+            "password": "<password_of_user>",
+            "driver": "org.postgresql.Driver"
+        },
+        "custom_read_format": "jdbc",
+        "custom_read_options": {
+            "url": "jdbc:postgresql://<ip>:5432/<db>",
+            "dbtable": "<name_of_table>",
+            "user": "<name_of_user>",
+            "password": "<password_of_user>",
+            "driver": "org.postgresql.Driver"
+        },
+        "write_format": "jdbc",
+        "write_options": {
+            "url": "jdbc:postgresql://<ip>:5432/<db>",
+            "dbtable": "<name_of_table>",
+            "user": "<name_of_user>",
+            "password": "<password_of_user>",
+            "driver": "org.postgresql.Driver"
+        },
+        "write_type": "CUSTOM"
+    },
+    "neo4j_delta": {
+        "name": "",
+        "id_column": "<id>",
+        "spark_packages": [
+            "neo4j-contrib:neo4j-connector-apache-spark_2.12:4.0.1_for_spark_3"
+        ],
+        "read_type": "PULL",
+        "read_format": "org.neo4j.spark.DataSource",
+        "read_options": {
+            "url": "bolt://<ip>:7687",
+            "labels": ":<labels_that_should_be_used>"
+        },
+        "write_type": "DELTA"
+    },
+    "neo4j_default": {
+        "name": "",
+        "id_column": "<id>",
+        "spark_packages": [
+            "neo4j-contrib:neo4j-connector-apache-spark_2.12:4.0.1_for_spark_3"
+        ],
+        "read_type": "PULL",
+        "read_format": "org.neo4j.spark.DataSource",
+        "read_options": {
+            "url": "bolt://<ip>:7687",
+            "labels": ":<labels_that_should_be_used>"
+        },
+        "write_type": "DELTA"
+    },
+    "mongodb_default": {
+        "name": "",
+        "id_column": "<id>",
+        "spark_packages": [
+            "org.mongodb.spark:mongo-spark-connector_2.12:3.0.1"
+        ],
+        "read_type": "PULL",
+        "read_format": "com.mongodb.spark.sql.DefaultSource",
+        "read_options": {
+            "spark.mongodb.input.uri": "mongodb://<username>:<password>@<ip>:27017/<db>.<name_of_collection>?authSource=<auth_source>"
+        },
+        "write_type": "DEFAULT"
+    },
+    "mongodb_delta": {
+        "name": "",
+        "id_column": "<id>",
+        "spark_packages": [
+            "org.mongodb.spark:mongo-spark-connector_2.12:3.0.1"
+        ],
+        "read_type": "PULL",
+        "read_format": "com.mongodb.spark.sql.DefaultSource",
+        "read_options": {
+            "spark.mongodb.input.uri": "mongodb://<username>:<password>@<ip>:27017/<db>.<name_of_collection>?authSource=<auth_source>"
+        },
+        "write_type": "DELTA"
+    },
+    "mongodb_custom": {
+        "name": "",
+        "id_column": "<id>",
+        "spark_packages": [
+            "org.mongodb.spark:mongo-spark-connector_2.12:3.0.1"
+        ],
+        "read_type": "PULL",
+        "read_format": "com.mongodb.spark.sql.DefaultSource",
+        "read_options": {
+            "spark.mongodb.input.uri": "mongodb://<username>:<password>@<ip>:27017/<db>.<name_of_collection>?authSource=<auth_source>"
+        },
+        "custom_read_format": "com.mongodb.spark.sql.DefaultSource",
+        "custom_read_options": {
+            "spark.mongodb.input.uri": "mongodb://<username>:<password>@<ip>:27017/<db>.<name_of_collection>?authSource=<auth_source>"
+        },
+        "write_format": "com.mongodb.spark.sql.DefaultSource",
+        "write_mode": "append",
+        "write_options": {
+            "uri": "mongodb://<username>:<password>@<ip>:27017/<db>?authSource=admin",
+            "database": "datalake_management",
+            "collection": "test2"
+        },
+        "write_type": "CUSTOM"
+    },
+    "rest_default": {
+        "name": "",
+        "example": "```py\n#example plugin file\nfrom pyspark.sql import SparkSession, DataFrame\nimport requests\nimport json\n\ndef load(spark: SparkSession) -> DataFrame:\n\tresp = requests.get('<your_url>')\n\tdf = spark.sparkContext.parallelize(json.loads(resp.text))\n\tdf = spark.read.json(df, multiLine=True)\n\treturn df\n```",
+        "id_column": "<id>",
+        "read_type": "PULL",
+        "plugin_files": [
+            "<upload_plugin_see_above>"
+        ],
+        "write_type": "DEFAULT"
+    },
+    "rest_delta": {
+        "name": "",
+        "example": "```py\n#example plugin file\nfrom pyspark.sql import SparkSession, DataFrame\nimport requests\nimport json\n\ndef load(spark: SparkSession) -> DataFrame:\n\tresp = requests.get('<your_url>')\n\tdf = spark.sparkContext.parallelize(json.loads(resp.text))\n\tdf = spark.read.json(df, multiLine=True)\n\treturn df\n```",
+        "id_column": "<id>",
+        "read_type": "PULL",
+        "plugin_files": [
+            "<upload_plugin_see_above>"
+        ],
+        "write_type": "DELTA"
+    },
+    "continuation_timer_default": {
+        "name": "",
+        "example": "```py\n#example plugin file\nfrom pyspark.sql import SparkSession, DataFrame\nimport requests\nimport json\n\ndef load(spark: SparkSession) -> DataFrame:\n\tresp = requests.get('<your_url>')\n\tdf = spark.sparkContext.parallelize(json.loads(resp.text))\n\tdf = spark.read.json(df, multiLine=True)\n\treturn df\n```\n# CRON-Info\nGeneral info => <a href='https://linuxize.com/post/cron-jobs-every-5-10-15-minutes/' target='_blank'>Linuxize</a>\nString builder => <a href='https://crontab.cronhub.io/' target='_blank'>Crontab</a>\n",
+        "id_column": "<id>",
+        "read_type": "PULL",
+        "plugin_files": [
+            "<upload_plugin_see_above>"
+        ],
+        "write_type": "DEFAULT",
+        "continuation_timers": [
+            "*/1 * * * *"
+        ]
+    },
+    "continuation_timer_delta": {
+        "name": "",
+        "example": "```py\n#example plugin file\nfrom pyspark.sql import SparkSession, DataFrame\nimport requests\nimport json\n\ndef load(spark: SparkSession) -> DataFrame:\n\tresp = requests.get('<your_url>')\n\tdf = spark.sparkContext.parallelize(json.loads(resp.text))\n\tdf = spark.read.json(df, multiLine=True)\n\treturn df\n```\n# CRON-Info\nGeneral info => <a href='https://linuxize.com/post/cron-jobs-every-5-10-15-minutes/' target='_blank'>Linuxize</a>\nString builder => <a href='https://crontab.cronhub.io/' target='_blank'>Crontab</a>\n",
+        "id_column": "<id>",
+        "read_type": "PULL",
+        "plugin_files": [
+            "<upload_plugin_see_above>"
+        ],
+        "write_type": "DELTA",
+        "continuation_timers": [
+            "*/1 * * * *"
+        ]
+    }
+}

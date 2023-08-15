@@ -1,0 +1,11 @@
+html5lib==1.1
+pymongo==3.12.0
+gunicorn==20.1.0
+mlflow
+cloudpickle==2.1.0
+h5py
+opencv-python
+numpy
+mahotas
+nbformat
+pywebhdfs
