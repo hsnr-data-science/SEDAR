@@ -43,15 +43,7 @@ This is a figure that represents the architecture of the system. All individual 
 ![](documents/sedar-architektur.jpg)
 
 # Installation
-The following installation instruction have been tested on a Debian virtual machine with 32GB RAM and 8 CPUs.
-
-### Virtual Machine Specifications
-        Description:    Debian GNU/Linux 11 (bullseye)
-        System:         Linux datalake106 5.15.74-1-pve #1 SMP PVE 5.15.74-1 (Mon, 14 Nov 2022 20:17:15 +0100) x86_64 GNU/Linux
-        Architecture:   x86_64
-        CPU Model name: Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz
-        Mem:            Total: 30Gi        Used: 18Gi
-
+The following installation instruction have been tested on a Debian GNU/Linux 11 (bullseye) virtual machine with 32GB RAM and 8 CPUs, Architecture x86_64. 
 
 1. Install the following via terminal. <br />
     * Git: <br />
@@ -120,39 +112,20 @@ The following installation instruction have been tested on a Debian virtual mach
             https://www.knowledgehut.com/blog/web-development/install-nodejs-on-ubuntu
 
     * Python3: <br />
-                - The following command could be used to install the latest version of Python on almost every Linux system. <br />
+        - We're running PySpark version 3.1.2 on Python 3.9  <br />
             
-                        sudo apt-get install python3
-
-        - installation guide for Python3 can also be found at this site: <br />
-        https://www.scaler.com/topics/python/install-python-on-linux/ <br />
+                        sudo apt-get install python3.9
     
     * pip: & python-venv <br />
-        - Use the following command to install pip for Python 3:
                 
-                sudo apt install python3-pip
-
-        - Use the following command to install venv:    
-
                 sudo apt install python3-pip python3-venv -y
 
-        - Upgrade pip: This can be done by running the following command: <br />
+        - Upgrade pip: <br />
             
                 pip install --upgrade pip
 
-2. After successfully downloading the necessary software to the VM, pull the SEDAR project from gitlab to your VM using the command: <br />
-        
-            git clone -b <branch_name> https://<username>:<password>@data-science.hsnr.de/gitlab/abschlussarbeiten/sedar.git 
-
-    - Open the project folder: <br />
-        
-            cd sedar/sedar/
-
-    - And check if you are in the correct branch.
-        
-            git branch
-
-3. Go to .env file where all the port and host IP addresses, secret keys and global definitions of containers and some packages are at.
+2. Configure the system
+   Go to .env file where all the port and host IP addresses, secret keys and global definitions of containers and some packages are at.
     - Select the IP address of backend host and right click on it. It should look like this:<br />
         
         BACKEND_HOST=<ipaddressofhostsystem>
@@ -163,23 +136,12 @@ The following installation instruction have been tested on a Debian virtual mach
 
     > By doing this, services will be able to communicate with eachother and frontend and backend will be connected via the new IP address.
 
-4. After pulling the project files onto the VM and changing the IP in .env file, start running the .yaml files in order with the following.<br />
-The .yaml files can be seen in the directory ~sedar/sedar/ <br />
-    - To use docker-compose command without needing to use superuser priveledges use this command:<br />
-        
-            sudo usermod -aG docker <your_username>
-
-    - Log out of your current session and log back in (or restart your system) to apply the group changes.
-
-    >It is now possible to use docker-compose commands without sudo. Being a member of the docker group allows you
-    >to interact with the Docker daemon as a regular user,eliminating the need to elevate permissions each time you use Docker commands.
+4. Build and pull containers.
     
     1. dev.yaml <br />
-        add cython by typing cython in the file that locates in sedar>sedar>dockerfiles>jupyterhub>spawnContainer>requirements.txt and run the command below.
         
             docker compose -f dev.yaml build
 
-        > If this command results with the error failed to solve: process "/bin/bash -o pipefail -c python3 -m pip install --no-cache -r /tmp/requirements.txt" did not complete successfully: exit code: 1
 
     2. services.yaml <br />
         
