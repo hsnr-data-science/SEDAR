@@ -39,11 +39,15 @@ This work has been sponsored by the German Federal Ministry of Education and Res
 ## Overview
 
 This is a figure that represents the architecture of the system. All individual elements are shipped in Docker containers.
+<p align="center">
+<img src="documents/SEDAR-Overview.jpg" alt="Image Description" style="width:500px;" />
+</p>
 
-![](documents/SEDAR-Overview.jpg)
 
 # Installation
-The following installation instruction have been tested on a Debian GNU/Linux 11 (bullseye) virtual machine with 32GB RAM and 8 CPUs, Architecture x86_64. 
+The following installation instruction have been tested on a Debian GNU/Linux 11 (bullseye) virtual machine with 32GB RAM and 8 CPUs, Architecture x86_64. <br />
+
+For the development we have been connecting to the VM via SSH using Visual Studio Code. This complicates the setup a little, because ports have to be forwarded to your local machine. In case you are developing locally, the setup is simplified, however you might face other problems in configuring for example the spark cluster, HDFS, etc. <br />
 
 1. Install the following via terminal. <br />
     * Git: <br />
@@ -125,211 +129,145 @@ The following installation instruction have been tested on a Debian GNU/Linux 11
                 pip install --upgrade pip
 
 2. Configure the system
-   Go to .env file where all the port and host IP addresses, secret keys and global definitions of containers and some packages are at.
-    - Select the IP address of backend host and right click on it. It should look like this:<br />
+   Check out the [example.env](https://github.com/hsnr-data-science/SEDAR/blob/main/SEDAR/.env.example). This is the main config file to define all ports and host IP addresses, secret keys, URLs etc. It is configured to work as a standalone solution with no external JupyterHub or GitLab Identity provider. An important key is 
         
         BACKEND_HOST=<ipaddressofhostsystem>
 
-        >Storing information in .env makes information easily accessible and changeable.
-        >Secret key is used to generate a signature for the authentication payload to ensure the authenticity and integrity of the token. Secret key is a standard method for representing claims securely between two parties, commonly used for authentication purposes in web applications.<br />
-    - Then select the IP address, click on change all occurances and change your end of IP address:
+   In our VM setup, we used the IP address of the VM host, e.g. 192.168.220.100. This key is important to ensure services, frontend and backend will be able to communicate with each other.  <br />
+   Copy the content of example.env into a file called .env and adjust according to your needs.  <br />
 
-    > By doing this, services will be able to communicate with eachother and frontend and backend will be connected via the new IP address.
+4. Build, pull and run containers. First, change Directory to SEDAR/src, then:
 
-4. Build and pull containers.
-    
-    1. dev.yaml <br />
+    1. commons.yaml <br />
+        Now start running the command bellow:    
         
-            docker compose -f dev.yaml build
-
+            docker compose -f commons.yaml build
 
     2. services.yaml <br />
         
             docker compose -f services.yaml build
 
-    3. commons.yaml <br />
-        Now start running the command bellow:    
+    3. dev.yaml <br />
         
-            docker compose -f commons.yaml build
+            docker compose -f dev.yaml build
+
+Running requires only services.yaml and dev.yaml. Commons does not need to be run.  <br />
+   4. dev.yaml <br />
         
-        > While running the command above if you get the following error: <br />
-        failed to solve: process "/bin/sh -c apt-get update &&     apt-get install -y openjdk-11-jre-headless && <br />
-        apt-get install -y ant &&     apt-get clean;" did not complete successfully: exit code: 100 <br />
-        >> Go to the file sedar/sedar/dockerfiles/commons.docker and change the python version at line 1 to the command below and
-        run the command again. <br />
-                FROM python:3.9-buster
+            docker compose -f dev.yaml up -d
+            
+Make sure Kafka is up and running. The services need to be able to succesfully connect to Kafka.  <br />
+   5. services.yaml <br />
+        
+            docker compose -f services.yaml up -d
 
-5. Frontend <br />
-    * It is necessary to forward ports to connect services and containers to frontend.<br />
-        - Forward these ports in VScode by selecting 'ports' on top of the terminal and then click 'add port'.<br />
-          80   :localhost<br />
-          7687 :neo4j<br />
-          5000 :python3<br />
-          8000 :docker-pr<br />
-          9870 :docker-pr
-
-    * Use the command below to install dependencies which locates in sedar/sedar/frontend/: <br />
+6. Frontend <br />
+    * Use the command below to install dependencies which locates in SEDAR/src/frontend/: <br />
         
             npm install
-    * This command will run sedar frontend and if there are non-compatible packages, if the packages are compatible with current dependency versions, frontend will be running.<br />
+    * Run sedar frontend: <br />
         
             npm run start
-    > you can check and change versions of packages in the sedar/sedar/frontend/ directory.<br />
 
-    > If port 80 gives an error because it is in use, check activity using the command below.<br />
-        sudo lsof -i :80<br />
-    > And you can run the frontend again after terminating the activity on port 80.
-
-6. Backend <br />
-    * Create virtual enviroment named flask using the command: <br />
+7. Backend <br />
+    * Create virtual enviroment (named flask) using the command: <br />
         
             python3 -m venv flask
         And activate the virtual enviroment. After activating you will see your directory will change. 
-        Directory will be now under (flask) enviroment.<br />
+        Directory will be now under (flask) enviroment. <br />
         
             source flask/bin/activate
     * install the requirement files that are shown below to virtual enviroment: <br />
-        Mainbackend/requirements.txt <br />
-        Commons/requirements.txt <br />
+        SEDAR/backend/mainbackend/requirements.txt <br />
+        SEDAR/backend/commons/requirements.txt <br />
             
-                cd sedar/sedar/backend/commons
-        - For installation of requirements.txt file:<br />
-            
-                pip install -r ./sedar/sedar/backend/commons/requirements.txt
-                pip install -r ./sedar/sedar/backend/mainbackend/requirements.txt
+                pip install -r ./SEDAR/src/backend/commons/requirements.txt
+                pip install -r ./SEDAR/src/backend/mainbackend/requirements.txt
 
-        >After installing both files, you can check the installed packages with $pip list command.
 
-7. Running the system <br />
+8. HDFS connectivity: <br />
     - run the command:
 
                 sudo nano /etc/hosts
         type namenode datanode1 next to YOUR:IP:ADDRESS localhost then exit with ctrl+X and save changes by pressing Y.
-    - install python extension in vscode
-    - then create launch.json from Run & Debug Tab
-    - Go to .vscode/ directory and change the package.json file to:
+9. Debugging in VS Code
+To debug the mainbackend or individual services we have been using python extension in vscode.  <br />
+    - Create a launch.json from Run & Debug Tab and past the following content. Make sure to adjust the filepaths to your system and also to kill corresponding containers first. 
 
                 {
                 "version": "0.2.0",
                 "configurations": [
                 {
                 "name": "Mainbackend",
-                "python":"/home/<USER_NAME>/sedar/sedar/backend/mainbackend/flask/bin/python3",
+                "python":"/home/<USER_NAME>/SEDAR/src/backend/mainbackend/flask/bin/python3",
                 "type": "python",
                 "request": "launch",
-                "cwd": "/home/<USER_NAME>/sedar/sedar/backend/mainbackend",
+                "cwd": "/home/<USER_NAME>/SEDAR/src/backend/mainbackend",
                 "program": "main_server.py",
                 "console": "integratedTerminal",
-                "envFile": "/home/<USER_NAME>/sedar/sedar/.env",
+                "envFile": "/home/<USER_NAME>/SEDAR/src/.env",
                 },
                 {
                 "name": "Ingestion Service",
-                "python":"/home/<USER_NAME>/sedar/sedar/backend/mainbackend/flask/bin/python3",
+                "python":"/home/<USER_NAME>/SEDAR/src/backend/mainbackend/flask/bin/python3",
                 "type": "python",
                 "request": "launch",
-                "cwd": "/home/<USER_NAME>/sedar/sedar/backend/mainbackend",
+                "cwd": "/home/<USER_NAME>/SEDAR/src/backend/mainbackend",
                 "program": "server.py",
                 "console": "integratedTerminal",
-                "envFile": "/home/<USER_NAME>/sedar/sedar/.env",
+                "envFile": "/home/<USER_NAME>/SEDAR/src/.env",
                 },
                 {
                 "name": "Continuation Service",
-                "python":"/home/<USER_NAME>/sedar/sedar/backend/mainbackend/flask/bin/python3",
+                "python":"/home/<USER_NAME>/SEDAR/src/backend/mainbackend/flask/bin/python3",
                 "type": "python",
                 "request": "launch",
-                "cwd": "/home/<USER_NAME>/sedar/sedar/backend/mainbackend",
+                "cwd": "/home/<USER_NAME>/SEDAR/src/backend/mainbackend",
                 "program": "server.py",
                 "console": "integratedTerminal",
-                "envFile": "/home/<USER_NAME>/sedar/sedar/.env",
+                "envFile": "/home/<USER_NAME>/SEDAR/src/.env",
                 },
                 {
                 "name": "Schema Service",
-                "python":"/home/<USER_NAME>/sedar/sedar/backend/mainbackend/flask/bin/python3",
+                "python":"/home/<USER_NAME>/SEDAR/src/backend/mainbackend/flask/bin/python3",
                 "type": "python",
                 "request": "launch",
-                "cwd": "/home/<USER_NAME>/sedar/sedar/backend/mainbackend",
+                "cwd": "/home/<USER_NAME>/SEDAR/src/backend/mainbackend",
                 "program": "server.py",
                 "console": "integratedTerminal",
-                "envFile": "/home/<USER_NAME>/sedar/sedar/.env",
+                "envFile": "/home/<USER_NAME>/SEDAR/src/.env",
                 },
                 {
                 "name": "Profiling Service",
-                "python":"/home/<USER_NAME>/sedar/sedar/backend/mainbackend/flask/bin/python3",
+                "python":"/home/<USER_NAME>/SEDAR/src/backend/mainbackend/flask/bin/python3",
                 "type": "python",
                 "request": "launch",
-                "cwd": "/home/<USER_NAME>/sedar/sedar/backend/mainbackend",
+                "cwd": "/home/<USER_NAME>/SEDAR/src/backend/mainbackend",
                 "program": "server.py",
                 "console": "integratedTerminal",
-                "envFile": "/home/<USER_NAME>/sedar/sedar/.env",
+                "envFile": "/home/<USER_NAME>/SEDAR/src/.env",
                 }
               ]
           }
-    - Change the username to your username for the directories.
-    - Go back to sedar/sedar/backend directory and run the command:
 
-                source .env
-    - Create four terminals to run ingestion, continuation, schema and profiling services.
-      make sure you have activated virtual enviroment 'flask' and for all terminals use the commands in order:
+    - Alternatively, you can run the servides inside terminals as well. Create four terminals to run ingestion, continuation, schema and profiling services.
+      Make sure you have activated virtual enviroment 'flask' and for all terminals use the commands in order. Make sure to adjust the filepaths to your system and also to kill corresponding containers first:
                 
-                cd /home/aozturk/sedar/sedar/backend/services/ingestion/
+                cd SEDAR/src/backend/services/ingestion/
                 python3 server.py
 
-                cd /home/aozturk/sedar/sedar/backend/services/continuation/
+                cd SEDAR/src/backend/services/continuation/
                 python3 server.py
 
-                cd /home/aozturk/sedar/sedar/backend/services/schema/
+                cd SEDAR/src/backend/services/schema/
                 python3 server.py
 
-                cd /home/aozturk/sedar/sedar/backend/services/profiling/
+                cd SEDAR/src/backend/services/profiling/
                 python3 server.py
-                
-
-    > It is suggested that you open two terminals side by side, one for frontend, one for backend to run the system.
-   
-
-    1. Backend: <br />
-        Make sure you are at the correct directory which is (flask)~home/<USER>/ <br />
-        And then run the command to execute backend: <br />
-                
-                python3 main_server.py
-    2. Frontend: <br />
-        Make sure you are at the correct directory which is ~sedar/sedar/frontend <br />
-        And then run the command to execute frontend: <br />
-                
-                npm run start
-
-
-* Debugging commands and tools: <br />
-    - htop <br />
-        This software lets you see if your device has enough memory and it shows CPU usage rate. <br />
-        To install htop, type the commands below to your terminal: <br />
-        
-            sudo apt-get update
-            sudo apt-get install htop
-        - Type htop to terminal to open the program and check the memory and CPU usage while executing the command that gives error.
-
-    - Command to kill all dockers: <br />
-        
-            docker rm -f $(docker ps -a -q)
-        > This comand will forcefully remove all stopped containers on your system, freeing up resources and disk space. Be cautious when using this command, as it will permanently delete all stopped containers, and any data stored inside those containers will be lost.
-This command is often used in scenarios where you want to clean up old or unused containers or as part of a script or automation to clean up the system periodically.<br />
-
-    - Command to reboot the system: <br />
-
-        > all containers must be terminated before reboot. <br />
-
-        
-            sudo reboot 0
-
-    - Command to restart system: <br />
-        
-            sudo systemctl restart docker
-        >it will attempt to stop the Docker service, wait for a moment, and then start it again. This can be useful when you've made changes to the Docker configuration or when you want to apply updates or changes to the Docker software.
-
-    - Command to stop a container: <br />
-        
-            docker stop <container_name>
-        > This command will gracefully stop the container, allowing it to perform any necessary cleanup tasks before shutting down.<br />
-
-## Testing the system
-1. If the website is running, go to profile icon, click on test and click start button at bottom of the page. It will automatically start 84 test cases that shows if system is working as intended.
+10. Port-Forwarding
+The follwing ports need to be forwarded to host system in case of running SEDAR inside a SSH-V. These are based on the standard definition given in example.env:  <br />
+   80 Frontend port  <br />
+   5000 Backend port  <br />
+   8088 WebVOWL <br />
+   7687 Neo4j <br />
+   8000 Jupyter <br />
