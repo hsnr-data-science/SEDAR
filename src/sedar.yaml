@@ -1,0 +1,24 @@
+version: "3.3"
+networks:
+  datalake:
+services:
+
+  sedar-backend:
+    container_name: sedar-backend
+    restart: always
+    build: 
+      context: ./
+      dockerfile: backend.Dockerfile
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    volumes:
+      - ./backend/services/ingestion:/application/backend/services/ingestion
+      - ./backend/commons:/application/backend/commons
+    env_file:
+      - .env
+    extra_hosts:
+      - "namenode:${HDFS_IP}" 
+      - "datanode1:${HDFS_IP}"
+      - "datanode2:${HDFS_IP}"
+    networks:
+      - datalake
