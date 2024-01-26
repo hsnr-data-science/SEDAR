@@ -13,14 +13,27 @@ The code in this repository is related to the earlier publication (ERCIM NEWS). 
 Sayed Hoseini, Ahmed Ali, Haron Shaker, and Christoph Quix. 2023. SEDAR: A Semantic Data Reservoir for Heterogeneous Datasets. In Proceedings of the 32nd ACM International Conference on Information and Knowledge Management (CIKM ’23), October 21–25, 2023, Birmingham, United Kingdom. ACM, New York, NY, USA, 5 pages. https://doi.org/10.1145/3583780.3614753
 
 ```bib
-@inproceedings{...,
-  title={A Semantic Data Reservoir for Integrating Heterogeneous Datasets},
-  author={},
-  booktitle={},
-  pages={},
-  year={2023},
-  doi={},
-  organization={}
+@inproceedings{DBLP:conf/cikm/HoseiniASQ23,
+  author       = {Sayed Hoseini and
+                  Ahmed Ali and
+                  Haron Shaker and
+                  Christoph Quix},
+  editor       = {Ingo Frommholz and
+                  Frank Hopfgartner and
+                  Mark Lee and
+                  Michael Oakes and
+                  Mounia Lalmas and
+                  Min Zhang and
+                  Rodrygo L. T. Santos},
+  title        = {{SEDAR:} {A} Semantic Data Reservoir for Heterogeneous Datasets},
+  booktitle    = {Proceedings of the 32nd {ACM} International Conference on Information
+                  and Knowledge Management, {CIKM} 2023, Birmingham, United Kingdom,
+                  October 21-25, 2023},
+  pages        = {5056--5060},
+  publisher    = {{ACM}},
+  year         = {2023},
+  url          = {https://doi.org/10.1145/3583780.3614753},
+  doi          = {10.1145/3583780.3614753}
 }
 ```
 ## Contact
