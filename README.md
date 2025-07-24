@@ -1,4 +1,11 @@
 # SEDAR: A Semantic Data Reservoir for Heterogeneous Datasets
+## Overview
+
+This is a figure that represents the architecture of the system. All individual elements are shipped in Docker containers.
+<p align="center">
+<img src="documents/SEDAR-Overview.jpg" alt="Image Description" style="width:500px;" />
+</p>
+
 Data lakes have emerged as a solution for managing vast and diverse datasets for modern data analytics. To prevent them from becoming ungoverned, semantic data management techniques are crucial, which involve connecting metadata with knowledge graphs, following the principles of Linked Data. This semantic layer enables more expressive data management, integration from various sources and enhances data access utilizing the concepts and relations to semantically enrich the data. Some frameworks have been proposed, but requirements like data versioning, linking of datasets, managing machine learning projects, automated semantic modeling and ontology-based data access are not supported in one uniform system. We demonstrate SEDAR, a comprehensive semantic data lake that includes support for data ingestion, storage, processing, and governance with a special focus on semantic data management. The demo will showcase how the system allows for various ingestion scenarios, metadata enrichment, data source linking, profiling, semantic modeling, data integration and processing inside a machine learning life cycle.
 
  ## [Demo Video](https://data-science.hsnr.de/SEDAR-CIKM.mp4)
@@ -49,14 +56,6 @@ v2.0__ ([read for more](./LICENSE)).
 
 We acknowledge the cooperation with A. Martin, M. Thiel, R. Kuller, L. Beer, F. Lentzen, F. Bongartz, M. Noman, T. Claas, M. Fallouh, Z. Abdullah gratefully who made this work possible. 
 This work has been sponsored by the German Federal Ministry of Education and Research, Germany in the funding program “Forschung an Fachhochschulen”, project \href{https://www.hs-niederrhein.de/i2dach}{$I^2DACH$} (grant no. 13FH557KX0).
-
-
-## Overview
-
-This is a figure that represents the architecture of the system. All individual elements are shipped in Docker containers.
-<p align="center">
-<img src="documents/SEDAR-Overview.jpg" alt="Image Description" style="width:500px;" />
-</p>
 
 
 # Installation
