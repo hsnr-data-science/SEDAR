@@ -4,7 +4,7 @@ We demonstrate SEDAR, a comprehensive semantic data lake that includes support f
 
 This is a figure that represents the architecture of the system. All individual elements are shipped in Docker containers.
 <p align="center">
-<img src="documents/SEDAR-Overview.jpg" alt="Image Description" style="width:500px;" />
+<img src="documents/SEDAR.jpg" alt="Image Description" style="width:500px;" />
 </p>
 
 
